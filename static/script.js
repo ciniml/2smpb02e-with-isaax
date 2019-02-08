@@ -19,9 +19,9 @@ Highcharts.chart('chart', {
                 if (py < series[0].yAxis.oldMin | !series[0].yAxis.oldMin) {
                     series[0].yAxis.update({min: py});
                 }
-                series[0].addPoint([x, py], true, true);
-                if (py < series[1].yAxis.oldMin | !series[1].yAxis.oldMin) {
-                  series[1].yAxis.update({min: py});
+                series[0].addPoint([x, ty], true, true);
+                if (ty < series[1].yAxis.oldMin | !series[1].yAxis.oldMin) {
+                  series[1].yAxis.update({min: ty});
                 }
                 series[1].addPoint([x, ty], true, true);
               });
