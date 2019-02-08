@@ -10,9 +10,16 @@ from flask import render_template
 from flask import jsonify
 
 import grove_2smpb_02e
+import ambient
+import os
 
 sensor = grove_2smpb_02e.Grove2smpd02e()
 app = Flask(__name__)
+
+AMBIENT_CHANNEL_ID = int(os.environ['AMBIENT_CHANNEL_ID'])
+AMBIENT_WRITE_KEY = os.environ['AMBIENT_WRITE_KEY']
+
+am = ambient.Ambient(AMBIENT_CHANNEL_ID, AMBIENT_WRITE_KEY)
 
 
 @app.route('/sensor')
@@ -28,6 +35,11 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', threaded=True)
+    while True:
+        pressure, temperature = sensor.readData() # type: float, float
+        am.send({'pressure':pressure, 'temperature':temperature})
+        time.sleep(5)
+    
+    #app.run(host='0.0.0.0', threaded=True)
 
 
