@@ -19,7 +19,8 @@ Highcharts.chart('chart', {
                 if (py < series.yAxis.oldMin | !series.yAxis.oldMin) {
                     series.yAxis.update({min: py});
                 }
-                series.addPoint([x, py], true, true);
+                series[0].addPoint([x, py], true, true);
+                series[1].addPoint([x, ty], true, true);
               });
           }, 500);
         } 
@@ -31,13 +32,37 @@ Highcharts.chart('chart', {
     xAxis: {
       type: 'datetime'
     },
-    yAxis: {
+    yAxis: [{
       title: {
         text: 'hPa' 
       }
     },
+    {
+      title: {
+        text: 'Celsius' 
+      },
+      opposite: true
+    }],
     series: [{
+      yAxis: 0,
       name: 'Pressure',
+      data: (function () {
+        let data = [],
+            time = (new Date()).getTime(),
+            i;
+  
+        for (i=-99; i<=0; i+=1) {
+          data.push({
+            x: time + i * 1000,
+            y: undefined
+          });
+        }
+        return data;
+      }())
+    },
+    {
+      yAxis: 1,
+      name: 'Temperature',
       data: (function () {
         let data = [],
             time = (new Date()).getTime(),
