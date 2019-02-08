@@ -6,7 +6,7 @@ Highcharts.chart('chart', {
       events: {
         load: function() {
           const request = window.superagent;
-                series = this.series[0];
+                series = this.series;
   
           setInterval(function () {
             request
@@ -16,10 +16,13 @@ Highcharts.chart('chart', {
                     py = res.body.pressure,
                     ty = res.body.temperature;
                 
-                if (py < series.yAxis.oldMin | !series.yAxis.oldMin) {
-                    series.yAxis.update({min: py});
+                if (py < series[0].yAxis.oldMin | !series[0].yAxis.oldMin) {
+                    series[0].yAxis.update({min: py});
                 }
                 series[0].addPoint([x, py], true, true);
+                if (py < series[1].yAxis.oldMin | !series[1].yAxis.oldMin) {
+                  series[1].yAxis.update({min: py});
+                }
                 series[1].addPoint([x, ty], true, true);
               });
           }, 500);
