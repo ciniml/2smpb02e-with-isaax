@@ -37,7 +37,7 @@ def home():
 if __name__ == '__main__':
     while True:
         pressure, temperature = sensor.readData() # type: float, float
-        am.send({'pressure':pressure, 'temperature':temperature})
+        am.send({'d1':pressure, 'd2':temperature})
         time.sleep(5)
     
     #app.run(host='0.0.0.0', threaded=True)
